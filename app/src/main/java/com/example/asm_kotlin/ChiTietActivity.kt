@@ -36,6 +36,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.asm_kotlin.ui.theme.ASM_KotlinTheme
 
 class ChiTietActivity : ComponentActivity() {
@@ -43,32 +45,21 @@ class ChiTietActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ASM_KotlinTheme {
-                ProductDetailScreen(
-                    productName = "Minimal Stand",
-                    productPrice = 100.0,
-                    productDetails = "Minimal Stand is made of by natural wood. The design that is very simple and minimal. This is truly one of the best furnitures in any family for now. With 3 different colors, you can easily select the best match for your home. ",
-                    productImageResId = R.drawable.img_4, // Replace with your actual product image resource
-                    customerRating = 4 // Example customer rating
-                ) {
-                    // Navigate back to home screen
-                    startActivity(Intent(this, HomeActivity::class.java))
-                    finish()
-                }
+                val navController = rememberNavController()
+                ProductDetailScreen(navController = navController)
             }
         }
     }
 }
 
 @Composable
-fun ProductDetailScreen(
-    productName: String,
-    productPrice: Double,
-    productDetails: String,
-    productImageResId: Int,
-    customerRating: Int,
-    onBackClick: () -> Unit
-) {
+fun ProductDetailScreen(navController: NavHostController) {
     var quantity by remember { mutableStateOf(1) }
+    val productName: String = "Minimal Stand"
+    val productPrice: Double = 100.0
+    val productDetails: String = "Minimal Stand is made of by natural wood. The design that is very simple and minimal. This is truly one of the best furnitures in any family for now. With 3 different colors, you can easily select the best match for your home. "
+    val  productImageResId: Int = R.drawable.img_4
+    val customerRating: Int = 4
 
     Column(
         modifier = Modifier
@@ -85,7 +76,7 @@ fun ProductDetailScreen(
             )
 
             IconButton(
-                onClick = onBackClick,
+                onClick = {navController.navigate("${Screens.Bottom.route}")} ,
                 modifier = Modifier
                     .padding(16.dp)
                     .size(27.dp)

@@ -46,6 +46,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import com.example.asm_kotlin.ui.theme.ASM_KotlinTheme
 
 data class CartProduct(
@@ -62,26 +63,26 @@ class GioHangActivity : ComponentActivity() {
 
         setContent {
             ASM_KotlinTheme {
-                CartScreen(
 
-//                    onBackClick = {
-////                        startActivity(Intent(this, HomeActivity::class.java))
-////                        finish()
-//                    }
-                )
             }
         }
     }
 }
 
 @Composable
-fun CartScreen( ) {
-    var products = SnapshotStateList<CartProduct>()
-    var totalAmount by remember { mutableStateOf(products.sumOf { it.price * it.quantity }) }
-    products.add(CartProduct(1, "Minimal Stand", 25.0, R.drawable.img_1, 1))
-    products.add(CartProduct(2, "Coffee Table", 150.0, R.drawable.img, 4))
-    products.add(CartProduct(3, "Minimal Stand", 25.0, R.drawable.img_2, 2))
-    products.add(CartProduct(4, "Minimal Desk", 150.0, R.drawable.img_3, 3))
+fun CartScreen(navController: NavHostController) {
+    val products = remember { mutableStateListOf<CartProduct>() }
+    var totalAmount by remember { mutableStateOf(0.0) }
+
+    // Initialize the products list only once
+    if (products.isEmpty()) {
+        products.add(CartProduct(1, "Minimal Stand", 25.0, R.drawable.img_1, 1))
+        products.add(CartProduct(2, "Coffee Table", 150.0, R.drawable.img, 4))
+        products.add(CartProduct(3, "Minimal Stand", 25.0, R.drawable.img_2, 2))
+        products.add(CartProduct(4, "Minimal Desk", 150.0, R.drawable.img_3, 3))
+        totalAmount = products.sumOf { it.price * it.quantity }
+    }
+
     Column(modifier = Modifier
         .fillMaxSize()
         .verticalScroll(rememberScrollState())) {
@@ -93,7 +94,9 @@ fun CartScreen( ) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate("${Screens.Bottom.route}")
+                    },
                     modifier = Modifier.size(24.dp)
                 ) {
                     Icon(
@@ -149,7 +152,6 @@ fun CartScreen( ) {
                     style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
                 )
             }
-
 
             Spacer(modifier = Modifier.height(8.dp))
 

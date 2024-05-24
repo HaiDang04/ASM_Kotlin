@@ -108,7 +108,7 @@ fun NavigationLayout(navController: NavHostController) {
             startDestination = Screens.Home.route,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(Screens.Home.route) { Greeting(name = "Home Page") }
+            composable(Screens.Home.route) { ProductGrid(navController = navController) }
             composable(Screens.Bookmark.route) { Greeting(name = "Bookmark Page") }
             composable(Screens.Notification.route) { Greeting(name = "Notification Page") }
             composable(Screens.Profile.route) { Greeting(name = "Profile Page") }

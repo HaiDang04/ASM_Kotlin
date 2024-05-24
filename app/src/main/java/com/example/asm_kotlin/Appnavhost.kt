@@ -31,7 +31,13 @@ fun AppNavHost(
             NavigationLayout(navController)
         }
         composable(Screens.Cart.route) {
-            CartScreen()
+            CartScreen(navController)
+        }
+        composable(Screens.Home.route) {
+            ProductGrid(navController)
+        }
+        composable(Screens.Detail.route) {
+            ProductDetailScreen(navController)
         }
     }
 }

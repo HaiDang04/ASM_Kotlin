@@ -31,31 +31,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.asm_kotlin.ui.theme.ASM_KotlinTheme
 
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val listImg = listOf(
-            Product(R.drawable.img, "Product 1", 100.0),
-            Product(R.drawable.img_1, "Product 2", 150.0),
-            Product(R.drawable.img_2, "Product 3", 200.0),
-            Product(R.drawable.img, "Product 4", 250.0)
-        )
+
         setContent {
             ASM_KotlinTheme {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(0.dp)
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                        contentDescription = "Logo"
-                    )
 
-                    ProductGrid(productList = listImg)
-                }
             }
         }
     }
@@ -64,7 +49,13 @@ class HomeActivity : ComponentActivity() {
 data class Product(val imageResId: Int, val name: String, val price: Double)
 
 @Composable
-fun ProductGrid(productList: List<Product>) {
+fun ProductGrid(navController: NavHostController) {
+    val productList = mutableListOf<Product>()
+    productList. add(Product(R.drawable.img, "Product 1", 100.0))
+    productList. add(Product(R.drawable.img_1, "Product 2", 150.0))
+    productList. add(Product(R.drawable.img_2, "Product 3", 200.0))
+    productList. add(Product(R.drawable.img, "Product 4", 250.0))
+
     val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
@@ -76,9 +67,9 @@ fun ProductGrid(productList: List<Product>) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                ProductItem(product = productList[i], modifier = Modifier.weight(1f))
+                ProductItem(product = productList[i], modifier = Modifier.weight(1f),navController)
                 if (i + 1 < productList.size) {
-                    ProductItem(product = productList[i + 1], modifier = Modifier.weight(1f))
+                    ProductItem(product = productList[i + 1], modifier = Modifier.weight(1f),navController)
                 } else {
                     Spacer(modifier = Modifier.weight(1f))
                 }
@@ -88,16 +79,19 @@ fun ProductGrid(productList: List<Product>) {
 }
 
 @Composable
-fun ProductItem(product: Product, modifier: Modifier = Modifier) {
+fun ProductItem(product: Product, modifier: Modifier = Modifier,navController: NavHostController) {
+
     Box(
         modifier = modifier
-            .padding(8.dp)
+            .padding(8.dp).clickable {
+                navController.navigate("${Screens.Detail.route}")
+            }
             .clip(RoundedCornerShape(12.dp))
     ) {
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(12.dp))
-                .clickable { /* Handle click */ }
+
                 .padding(8.dp)
         ) {
             Image(
