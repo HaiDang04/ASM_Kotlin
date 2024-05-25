@@ -60,10 +60,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             ASM_KotlinTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) {
-//                    Greeting(
-//                        name = "Android",
-//                        modifier = Modifier.padding(innerPadding)
-//                    )
+
                 }
             }
         }
@@ -191,6 +188,5 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     ASM_KotlinTheme {
-        Greeting("Android")
     }
 }

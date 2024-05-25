@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,8 +32,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toColorInt
 import androidx.navigation.NavHostController
+import com.example.asm_kotlin.Model.Type
 import com.example.asm_kotlin.ui.theme.ASM_KotlinTheme
 
 class HomeActivity : ComponentActivity() {
@@ -46,6 +52,40 @@ class HomeActivity : ComponentActivity() {
     }
 }
 
+val typeList = listOf(
+    Type(1, R.drawable.baseline_star_24, "Popular"),
+    Type(2, R.drawable.outline_chair_alt_24, "Chair"),
+    Type(3, R.drawable.outline_table_bar_24, "Table"),
+    Type(4, R.drawable.outline_chair_24, "Armchair"),
+    Type(5, R.drawable.outline_bed_24, "Bed")
+)
+@Composable
+fun TypeItem(type: Type) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .padding(horizontal = 19.dp)
+
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(2.dp)
+                .size(50.dp)
+                .background(
+                    color = Color("#F5F5F5".toColorInt()),
+                    shape = RoundedCornerShape(9.dp)
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            Image(painter = painterResource(id = type.icon), contentDescription = "Logo")
+        }
+        Text(text = type.tenTheLoai, textAlign = TextAlign.Center)
+    }
+}
+
+
+
 data class Product(val imageResId: Int, val name: String, val price: Double)
 
 @Composable
@@ -55,14 +95,31 @@ fun ProductGrid(navController: NavHostController) {
     productList. add(Product(R.drawable.img_1, "Product 2", 150.0))
     productList. add(Product(R.drawable.img_2, "Product 3", 200.0))
     productList. add(Product(R.drawable.img, "Product 4", 250.0))
+    productList. add(Product(R.drawable.img, "Product 5", 100.0))
+    productList. add(Product(R.drawable.img_1, "Product 6", 150.0))
 
     val scrollState = rememberScrollState()
+
+
+
     Column(
         modifier = Modifier
             .verticalScroll(scrollState)
             .padding(16.dp)
     ) {
+       /// cua cai type
+        Row(
+            modifier = Modifier
+                .horizontalScroll(scrollState)
+                .padding(16.dp)
+        ) {
+            typeList.forEach { type ->
+                TypeItem(type = type)
+            }
+        }
+        ///
         for (i in productList.indices step 2) {
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -74,7 +131,9 @@ fun ProductGrid(navController: NavHostController) {
                     Spacer(modifier = Modifier.weight(1f))
                 }
             }
+
         }
+
     }
 }
 

@@ -39,5 +39,8 @@ fun AppNavHost(
         composable(Screens.Detail.route) {
             ProductDetailScreen(navController)
         }
+        composable(Screens.Notification.route) {
+            SuccessScreen(navController)
+        }
     }
 }

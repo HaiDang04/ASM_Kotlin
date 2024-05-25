@@ -156,7 +156,7 @@ fun CartScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(8.dp))
 
             Button(
-                onClick = { /* Buy now logic */ },
+                onClick = { navController.navigate("${Screens.Notification.route}")},
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.Red,
                     contentColor = Color.White

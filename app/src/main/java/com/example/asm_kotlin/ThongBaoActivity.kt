@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.asm_kotlin.ui.theme.ASM_KotlinTheme
 
 class ThongBaoActivity : ComponentActivity() {
@@ -34,24 +35,14 @@ class ThongBaoActivity : ComponentActivity() {
 
         setContent {
             ASM_KotlinTheme {
-                SuccessScreen(
-                    onTrackOrdersClick = {
-                        // Logic for tracking orders
-                        //startActivity(Intent(this, TrackOrdersActivity::class.java))
-                    },
-                    onBackToHomeClick = {
-                        // Logic for going back to home
-                        startActivity(Intent(this, HomeActivity::class.java))
-                        finish()
-                    }
-                )
+
             }
         }
     }
 }
 
 @Composable
-fun SuccessScreen(onTrackOrdersClick: () -> Unit, onBackToHomeClick: () -> Unit) {
+fun SuccessScreen(navController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -87,7 +78,7 @@ fun SuccessScreen(onTrackOrdersClick: () -> Unit, onBackToHomeClick: () -> Unit)
         Spacer(modifier = Modifier.height(32.dp))
 
         Button(
-            onClick = onTrackOrdersClick,
+            onClick = { },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Blue,
                 contentColor = Color.White
@@ -103,7 +94,7 @@ fun SuccessScreen(onTrackOrdersClick: () -> Unit, onBackToHomeClick: () -> Unit)
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = onBackToHomeClick,
+            onClick = {navController.navigate("${Screens.Bottom.route}")},
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color.Gray,
                 contentColor = Color.White
@@ -122,9 +113,6 @@ fun SuccessScreen(onTrackOrdersClick: () -> Unit, onBackToHomeClick: () -> Unit)
 @Composable
 fun SuccessScreenPreview() {
     ASM_KotlinTheme {
-        SuccessScreen(
-            onTrackOrdersClick = {},
-            onBackToHomeClick = {}
-        )
+
     }
 }
